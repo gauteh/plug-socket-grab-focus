@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include <fstream>
 #include <gtkmm.h>
 #include <gtkmm/socket.h>
@@ -17,7 +18,6 @@ class MySocketWindow : public Gtk::Window
     {
       cout << "A plug was added" << endl;
 
-      socket->grab_focus ();
     }
 
     bool plug_removed()
@@ -25,17 +25,34 @@ class MySocketWindow : public Gtk::Window
       cout << "A Plug was removed" << endl;
       return true;
     }
+
+    void btn_clicked () {
+      cout << "grab focus " << endl;
+      socket->grab_focus ();
+      socket->get_plug_window()->focus (-1);
+
+      /*
+      vector<Widget*> ch = socket->get_children ();
+      ch[0]->grab_focus ();
+      */
+
+    }
+
     MySocketWindow()
     {
       ifstream infile(id_filename);
       if (infile)
       {
+        Gtk::Button *btn  = Gtk::manage (new Gtk::Button("focus plug"));
         Gtk::Entry *entry = Gtk::manage (new Gtk::Entry());
         Gtk::Box *box     = Gtk::manage (new Gtk::Box());
         socket = Gtk::manage(new Gtk::Socket());
         box->pack_start (*entry, true, 5);
+        box->pack_start (*btn, true, 5);
         box->pack_start (*socket, true, 5);
         add(*box);
+
+        btn->signal_clicked().connect(sigc::mem_fun(*this, &MySocketWindow::btn_clicked));
 
         socket->signal_plug_added().connect(sigc::mem_fun(*this, &MySocketWindow::plug_added));
         socket->signal_plug_removed().connect(sigc::mem_fun(*this, &MySocketWindow::plug_removed));
