@@ -28,14 +28,8 @@ class MySocketWindow : public Gtk::Window
 
     void btn_clicked () {
       cout << "grab focus " << endl;
+      socket->set_can_focus(true);
       socket->grab_focus ();
-      socket->get_plug_window()->focus (-1);
-
-      /*
-      vector<Widget*> ch = socket->get_children ();
-      ch[0]->grab_focus ();
-      */
-
     }
 
     MySocketWindow()
@@ -77,6 +71,7 @@ int main(int argc, char** argv)
 {
   // The plug and the socket have different application ids, so they can run
   // simultaneously.
+  cout << "set GTK_DEBUG=plugsocket for more debug info." << endl;
   Glib::RefPtr<Gtk::Application> app =
     Gtk::Application::create(argc, argv, "org.gtkmm.example.socket");
   MySocketWindow win;
