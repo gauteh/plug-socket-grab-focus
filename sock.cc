@@ -1,8 +1,11 @@
+
 #include <iostream>
 #include <vector>
 #include <fstream>
 #include <gtkmm.h>
+#include "../gtk+/gdk/gdkx.h"
 #include <gtkmm/socket.h>
+
 
 using namespace std;
 
@@ -29,7 +32,8 @@ class MySocketWindow : public Gtk::Window
     void btn_clicked () {
       cout << "grab focus " << endl;
       socket->set_can_focus(true);
-      socket->grab_focus ();
+
+      gtk_socket_focus_forward (socket->gobj());
     }
 
     MySocketWindow()
