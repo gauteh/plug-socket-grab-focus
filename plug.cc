@@ -17,7 +17,7 @@ class MyPlug : public Gtk::Plug
 {
   public:
     MyPlug()
-      
+
   {
     set_size_request(150, 100);
     add(m_label);
@@ -36,6 +36,7 @@ int main(int argc, char** argv)
 {
   // The plug and the socket have different application ids, so they can run
   // simultaneously.
+  cout << "set GTK_DEBUG=plugsocket for more debug info." << endl;
   Glib::RefPtr<Gtk::Application> app =
     Gtk::Application::create(argc, argv, "org.gtkmm.example.plug");
   MyPlug plug;
