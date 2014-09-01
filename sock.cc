@@ -33,7 +33,10 @@ class MySocketWindow : public Gtk::Window
       cout << "grab focus " << endl;
       socket->set_can_focus(true);
 
-      gtk_socket_focus_forward (socket->gobj());
+      /* use child_focus method:
+       * https://mail.gnome.org/archives/gtk-app-devel-list/2014-August/msg00047.html
+       */
+      socket->child_focus (Gtk::DIR_TAB_FORWARD);
     }
 
     MySocketWindow()
